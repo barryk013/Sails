@@ -7,7 +7,10 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Animator))]
 public class Sail : MonoBehaviour
 {
-    [SerializeField] private float sailAnimTime = 5;
+    [SerializeField]
+    [Tooltip("Time taken for sails to go from stowed to fully rolled down")]
+    private float sailAnimTime = 5;
+
     [SerializeField] private Vector3 forwardDirection = new(0, 0, 1);
     [SerializeField] private Renderer sailRenderer;
     private Material _sailMaterial;
@@ -22,9 +25,9 @@ public class Sail : MonoBehaviour
 
     private Animator _animator;
 
-    private Coroutine _sailDeployCoroutine;
-    private Coroutine _sailWindCoroutine;
-    private Coroutine _resetCoroutine;
+    private Coroutine _deploySailCoroutine;
+    private Coroutine _fillSailCoroutine;
+    private Coroutine _stowSailCoroutine;
 
     [SerializeField] private WindDataScriptableObject windData;
 
@@ -47,18 +50,21 @@ public class Sail : MonoBehaviour
     #region Event Listeners    
     public void OnSailCommandIssued()
     {
+        _sailDeployed = !_sailDeployed;
+
         if (_sailDeployed)
         {
             StopCoroutines();
-            _sailDeployed = false;
-            _resetCoroutine = StartCoroutine(ResetSailCoroutine());
+
+            _deploySailCoroutine = StartCoroutine(DeploySailCoroutine());
+            _fillSailCoroutine = StartCoroutine(FillSailCoroutine());
+
         }
         else
         {
             StopCoroutines();
-            _sailDeployed = true;
-            _sailDeployCoroutine = StartCoroutine(SailDeployCoroutine());
-            _sailWindCoroutine = StartCoroutine(SailWindCoroutine());
+
+            _stowSailCoroutine = StartCoroutine(StowSailCoroutine());
         }
     }
     #endregion
@@ -67,21 +73,21 @@ public class Sail : MonoBehaviour
 
     private void StopCoroutines()
     {
-        if (_sailDeployCoroutine != null)
-            StopCoroutine(_sailDeployCoroutine);
+        if (_deploySailCoroutine != null)
+            StopCoroutine(_deploySailCoroutine);
 
-        if (_sailWindCoroutine != null)
-            StopCoroutine(_sailWindCoroutine);
+        if (_fillSailCoroutine != null)
+            StopCoroutine(_fillSailCoroutine);
 
-        if (_resetCoroutine != null)
-            StopCoroutine(_resetCoroutine);
+        if (_stowSailCoroutine != null)
+            StopCoroutine(_stowSailCoroutine);
     }
 
     /// <summary>
     /// Deploy (roll down) sail coroutine.
     /// </summary>
     /// <returns></returns>
-    IEnumerator SailDeployCoroutine()
+    IEnumerator DeploySailCoroutine()
     {
         float fromPercent = _currentRollUpPercent;
 
@@ -97,45 +103,47 @@ public class Sail : MonoBehaviour
 
             yield return null;
         }
-        _sailDeployCoroutine = null;
+        _deploySailCoroutine = null;
     }
 
     /// <summary>
     /// Fill sails depending on wind direction.
     /// </summary>
     /// <returns></returns>
-    IEnumerator SailWindCoroutine()
+    IEnumerator FillSailCoroutine()
     {
         while (_sailDeployed)
         {
             float sailToWindAngle = Vector3.Angle(transform.forward, windData.WindDirection);
             //wind at 90deg to sail = 0 fill percent. 
             //0 to 180 range -> -90 to 90 range -> flip sign -> divide by 90 -> sail fill percent
-            float sailFillPercent = (-sailToWindAngle + 90) / 90;  
+            float sailFillPercent = (-sailToWindAngle + 90) / 90;
 
-
-            if (_currentFillPercent < sailFillPercent)
+            //only update if there is a significant difference
+            if (Mathf.Abs(sailFillPercent - _currentFillPercent) > 0.01f)
             {
-                _currentFillPercent += Time.deltaTime * (1 / sailAnimTime);
-            }
-            else if (_currentFillPercent > sailFillPercent)
-            {
-                _currentFillPercent -= Time.deltaTime * (1 / sailAnimTime);
-            }
+                if (_currentFillPercent < sailFillPercent)
+                {
+                    _currentFillPercent += Time.deltaTime * (1 / sailAnimTime);
+                }
+                else if (_currentFillPercent > sailFillPercent)
+                {
+                    _currentFillPercent -= Time.deltaTime * (1 / sailAnimTime);
+                }
 
-            
-            _currentFillPercent = Mathf.Clamp(_currentFillPercent, -1, 1);
+                _currentFillPercent = Mathf.Clamp(_currentFillPercent, -1, 1);
 
-            if (_currentFillPercent > 0)
-                _animator.Play("PositiveWind", 1, _currentFillPercent);
-            else
-                _animator.Play("NegativeWind", 1, Mathf.Abs(_currentFillPercent));
+                if (_currentFillPercent > 0)
+                    _animator.Play("PositiveWind", 1, _currentFillPercent);
+                else
+                    _animator.Play("NegativeWind", 1, Mathf.Abs(_currentFillPercent));
+            }
 
             yield return null;
         }
     }
 
-    IEnumerator ResetSailCoroutine()
+    IEnumerator StowSailCoroutine()
     {
         float startingRollDownPercent = _currentRollUpPercent;
         float startingFillPercent = _currentFillPercent;
@@ -147,8 +155,8 @@ public class Sail : MonoBehaviour
         {
             _currentRollUpPercent = Mathf.Lerp(startingRollDownPercent, 1, lerpTimer / lerpDuration);
             _currentFillPercent = Mathf.Lerp(startingFillPercent, 0, lerpTimer / lerpDuration);
-            
-            //update animations
+
+
             _animator.Play("RollUp", 0, _currentRollUpPercent);
 
             if (_currentFillPercent > 0)
@@ -160,8 +168,6 @@ public class Sail : MonoBehaviour
 
             yield return null;
         }
-        _sailDeployCoroutine = null;
-        _sailWindCoroutine = null;
     }
 
     #endregion
