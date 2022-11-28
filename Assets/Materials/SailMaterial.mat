@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SailMaterial
+  m_Shader: {fileID: 4800000, guid: 927d19739284fff4cb3f4c60ecdc59e4, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 1
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Color:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Mask:
+        m_Texture: {fileID: 2800000, guid: bf2d393cd3780b6458fdd0ca60804b86, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MaskTexture:
+        m_Texture: {fileID: 2800000, guid: dbf3de78346cee44c9fd6a3f9a5d5cd8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: c2fca4fd04ca45a44956cf0d2aee27ab, type: 3}
+        m_Scale: {x: 1.23, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Stains:
+        m_Texture: {fileID: 2800000, guid: 1b156636f8dd5a148a56d368dada5f95, type: 3}
+        m_Scale: {x: 5, y: 2.5}
+        m_Offset: {x: 0, y: 0}
+    - _Texture:
+        m_Texture: {fileID: 2800000, guid: 82425af77bb40224089b0de1fb4eedcf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture0:
+        m_Texture: {fileID: 2800000, guid: bf2d393cd3780b6458fdd0ca60804b86, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: 32d302da99a2d5f4f8e3f513420b07a7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Alpha: 1
+    - _AlphaCutoff: 0.5
+    - _Brightness: 0.202
+    - _Int0: 0
+    - _Int1: 0
+    - _IsTopSail: 1
+    - _MinimumTransparency: 0.2
+    - _NormalStrength: 0.1
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _SailFillPercent: 1
+    - _SailOpacity: 1
+    - _SailWindLevel: 19.9
+    - _Smoothness: 0
+    - _StainStr: 0.42
+    - _StainStrength: 0.35
+    - _TessEdgeLength: 16
+    - _TessMaxDisp: 25
+    - _ToggleSwitch0: 0
+    - _TransAmbient: 0.1
+    - _TransDirect: 0.9
+    - _TransNormal: 0.5
+    - _TransScattering: 2
+    - _TransShadow: 0.5
+    - _TransStrength: 1
+    - _TransmissionShadow: 0.66
+    - _VoronoiPanningSpeed: 2
+    - _VoronoiScale: 1
+    - _VoronoiSeed: 500
+    - _VoronoiSmoothness: 0.5
+    - _VoronoiStrength: 2
+    - _Voronoi_Smoothness: 0.33
+    - _Voronoi_scale: 5.87
+    - _ZTestMode: 4
+    - _ZWriteMode: 1
+    - __dirty: 1
+    - _deviation: 0.2
+    m_Colors:
+    - _Color: {r: 0.5490196, g: 0.5490196, b: 0.5490196, a: 1}
+    - _Color0: {r: 0.54901963, g: 0.54901963, b: 0.54901963, a: 0}
+    - _Colour: {r: 0.412, g: 0.412, b: 0.412, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FlappingDirection: {r: 0, g: 0, b: 1, a: 0}
+    - _ForwardDirection: {r: 0, g: 0, b: 1, a: 0}
+    - _StainTint: {r: 0.8679245, g: 0.8679245, b: 0.8679245, a: 0}
+    - _Tint: {r: 0.5660378, g: 0.53621477, b: 0.28515488, a: 0}
+    - _Vector0: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
